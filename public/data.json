@@ -1,31 +1,10 @@
 {
   "maxCount": 4,
   "colors": [
-    [
-      "blue",
-      "purple",
-      "yellow",
-      "orange"
-    ],
-    [
-      "orange",
-      "yellow"
-    ],
-    [
-      "blue",
-      "purple",
-      "blue"
-    ],
-    [
-      "yellow",
-      "orange",
-      "purple"
-    ],
-    [
-      "purple",
-      "orange",
-      "yellow",
-      "blue"
-    ]
+    ["#1A535C", "#4ecdc4", "#FF6B6B", "#FFE66D"],
+    ["#FFE66D", "#FF6B6B"],
+    ["#1A535C", "#4ecdc4", "#1A535C"],
+    ["#FF6B6B", "#FFE66D", "#4ecdc4"],
+    ["#4ecdc4", "#FFE66D", "#FF6B6B", "#1A535C"]
   ]
 }

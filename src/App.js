@@ -1,42 +1,35 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import './App.css';
-import Btn from "./components/Btn";
-import {copyArray, generateRenderData} from "./helpers";
-import BtnContainer from "./components/BtnContainer";
+import WinnerBoard from './components/WinnerBoard/WinnerBoard';
+import GameBoard from './components/GameBoard/GameBoard';
 
-class App extends React.Component {
-  constructor() {
-    super();
+export const appContext = createContext([]);
 
-    this.state = {
-      finished: false
-    }
-  }
+function App() {
+  const [finished, setFinished] = useState(false);
+  const [steps, setSteps] = useState(0);
 
-  handlePlayAgain = () => {
-    this.setState({
-      finished: false,
-    })
-  }
+  const handleStepCounter = () => {
+    setSteps((prev) => prev + 1);
+  };
 
-  handleSetFinished = () => {
-    this.setState({finished: true})
-  }
+  const handlePlayAgain = () => {
+    setSteps(0);
+    setFinished(false);
+  };
+  const handleSetFinished = () => setFinished(true);
 
-  render() {
-    return (
-      <div className="App">
-        {this.state.finished ? (
-          <>
-            <h1 className="you-won">You Won ! </h1>
-            <button onClick={this.handlePlayAgain}>Play Again</button>
-          </>
-        ) : (
-          <BtnContainer setFinished={this.handleSetFinished}/>
-        )}
-      </div>
-    )
-  }
+  return (
+    <div className="App">
+      {finished ? (
+        <WinnerBoard onClick={handlePlayAgain} steps={steps} />
+      ) : (
+        <appContext.Provider value={[handleStepCounter, handleSetFinished]}>
+          <GameBoard steps={steps} />
+        </appContext.Provider>
+      )}
+    </div>
+  );
 }
 
 export default App;

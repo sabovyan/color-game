@@ -1,0 +1,8 @@
+.btn {
+  height: 70px;
+  width: 70px;
+  margin: 3px 5px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 2px 1px 3px #919191, -3px -1px 5px #d6d6d6;
+}

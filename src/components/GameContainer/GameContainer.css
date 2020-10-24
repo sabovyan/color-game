@@ -1,0 +1,14 @@
+.game-container {
+  height: 70vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column-reverse;
+  border-radius: 15px;
+}

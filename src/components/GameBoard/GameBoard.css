@@ -1,0 +1,19 @@
+.game__score {
+  position: fixed;
+  top: 5px;
+  font-family: 'babyFonts', cursive;
+  font-size: 3rem;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(
+    to right,
+    #ff6b6b 0%,
+    #ffe66d 60%,
+    #4ecdc4 80%,
+    #1a535c 90%
+  );
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}

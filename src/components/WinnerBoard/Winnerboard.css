@@ -1,0 +1,70 @@
+.winner__board {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.you-won,
+.winner__steps {
+  margin-right: 10px;
+  font-family: 'babyFonts', cursive;
+  font-size: 3rem;
+  /*   */
+}
+
+.you-won {
+  background: linear-gradient(
+    to right,
+    #ff6b6b 0%,
+    #ffe66d 60%,
+    #4ecdc4 85%,
+    #1a535c 95%
+  );
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: won 5s infinite linear;
+}
+
+@keyframes won {
+  50% {
+    background-position: 380px;
+    background-size: 100px;
+  }
+  100% {
+    background-size: 200px;
+  }
+}
+
+.winner__play {
+  border: none;
+  color: black;
+  font-family: 'babyFonts', cursive;
+  font-size: 3rem;
+  background: none;
+
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.winner__play:hover {
+  background: linear-gradient(
+    to right,
+    #ff6b6b 0%,
+    #ffe66d 60%,
+    #4ecdc4 80%,
+    #1a535c 90%
+  );
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: won 5s infinite linear;
+}
+
+.winner__play:hover {
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
