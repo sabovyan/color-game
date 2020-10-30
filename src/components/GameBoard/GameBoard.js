@@ -1,9 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import ButtonContainer from '../BtnContainer/BtnContainer';
 
 import './GameBoard.css';
 
-function GameBoard({ steps }) {
+function GameBoard() {
+  const { steps } = useSelector((state) => state);
   return (
     <>
       <div className="game__score">

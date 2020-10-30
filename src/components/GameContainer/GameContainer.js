@@ -1,9 +1,12 @@
 import React from 'react';
 import Button from '../Button/index';
+import { useSelector } from 'react-redux';
 
 import './GameContainer.css';
 
-function GameContainer({ renderColors, onClick }) {
+function GameContainer({ onClick }) {
+  const { renderColors } = useSelector((state) => state);
+
   const handleClick = (i) => () => {
     onClick(i);
   };

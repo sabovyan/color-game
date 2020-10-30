@@ -1,34 +1,15 @@
-import React, { createContext, useState } from 'react';
-import './App.css';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import WinnerBoard from './components/WinnerBoard/WinnerBoard';
 import GameBoard from './components/GameBoard/GameBoard';
 
-export const appContext = createContext([]);
+import './App.css';
 
 function App() {
-  const [finished, setFinished] = useState(false);
-  const [steps, setSteps] = useState(0);
-
-  const handleStepCounter = () => {
-    setSteps((prev) => prev + 1);
-  };
-
-  const handlePlayAgain = () => {
-    setSteps(0);
-    setFinished(false);
-  };
-  const handleSetFinished = () => setFinished(true);
+  const { finishStatus } = useSelector((state) => state);
 
   return (
-    <div className="App">
-      {finished ? (
-        <WinnerBoard onClick={handlePlayAgain} steps={steps} />
-      ) : (
-        <appContext.Provider value={[handleStepCounter, handleSetFinished]}>
-          <GameBoard steps={steps} />
-        </appContext.Provider>
-      )}
-    </div>
+    <div className="App">{finishStatus ? <WinnerBoard /> : <GameBoard />}</div>
   );
 }
 

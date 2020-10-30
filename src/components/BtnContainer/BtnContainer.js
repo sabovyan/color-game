@@ -1,25 +1,26 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
-/* helpers */
-import { copyArray, generateRenderData, isGameOver } from '../../helpers';
-/* service */
-import { getData } from '../../Services/getData';
+import React, { useEffect, useState, useRef } from 'react';
+/* Redux */
+import { useDispatch, useSelector } from 'react-redux';
+import { setFinishStatus } from '../../store/features/finish.reducer';
+import { increment } from '../../store/features/step.reducer';
+import { setSelectedColor } from '../../store/features/selectedColor.reducer';
+import { setRenderColors } from '../../store/features/renderColors.reducer';
+import { getAllColors } from '../../store/features/colors.reducer';
 /* Components */
 import Button from '../Button';
 import GameContainer from '../GameContainer/GameContainer';
-import { appContext } from '../../App';
-
+/* helpers */
+import { copyArray, generateRenderData, isGameOver } from '../../helpers';
 /* CSS */
 import './BtnContainer.css';
 
 function ButtonContainer() {
-  const [renderColors, setRenderColors] = useState(null);
-  const [handleColors, setHandleColors] = useState([]);
   const maxCount = useRef(null);
-
-  const [selectedColor, setSelectedColor] = useState(null);
+  const dispatch = useDispatch();
+  const [handleColors, setHandleColors] = useState([]);
   const [indexOFLastArray, setIndexOFLastArray] = useState(null);
 
-  const [addSteps, setFinished] = useContext(appContext);
+  const { colorsJson, selectedColor } = useSelector((state) => state);
 
   const handleClick = (index) => {
     const copyColors = copyArray(handleColors);
@@ -27,13 +28,16 @@ function ButtonContainer() {
     const clickedColor = clickedColorsArray[clickedColorsArray.length - 1];
 
     if (!selectedColor) {
-      setSelectedColor(clickedColor);
+      dispatch(setSelectedColor(clickedColor));
+
       setIndexOFLastArray(index);
 
       clickedColorsArray.pop();
-      setRenderColors(generateRenderData(copyColors, maxCount.current));
+      dispatch(
+        setRenderColors(generateRenderData(copyColors, maxCount.current))
+      );
       setHandleColors(copyColors);
-      addSteps();
+      dispatch(increment());
       return;
     }
 
@@ -42,10 +46,12 @@ function ButtonContainer() {
       (!clickedColor || selectedColor === clickedColor)
     ) {
       clickedColorsArray.push(selectedColor);
-      setRenderColors(generateRenderData(copyColors, maxCount.current));
+      dispatch(
+        setRenderColors(generateRenderData(copyColors, maxCount.current))
+      );
       setHandleColors(copyColors);
-      setSelectedColor('');
-      addSteps();
+      dispatch(setSelectedColor(''));
+      dispatch(increment());
     }
   };
 
@@ -54,26 +60,37 @@ function ButtonContainer() {
       const copyColors = copyArray(handleColors);
       const lastArray = copyColors[indexOFLastArray];
       lastArray.push(selectedColor);
-      setRenderColors(generateRenderData(copyColors, maxCount.current));
+      dispatch(
+        setRenderColors(generateRenderData(copyColors, maxCount.current))
+      );
       setHandleColors(copyColors);
-      setSelectedColor(null);
+      dispatch(setSelectedColor(null));
       setIndexOFLastArray(null);
-      addSteps();
+      dispatch(increment());
     }
   };
 
   useEffect(() => {
-    const data = getData();
-    data.then((data) => {
-      maxCount.current = data.maxCount;
-      setRenderColors(generateRenderData(data.colors, maxCount.current));
-      setHandleColors(data.colors);
-    });
-  }, []);
+    dispatch(getAllColors());
+    if (colorsJson.status) {
+      maxCount.current = colorsJson.data.maxCount;
+      setHandleColors(colorsJson.data.colors);
+      dispatch(
+        setRenderColors(
+          generateRenderData(colorsJson.data.colors, maxCount.current)
+        )
+      );
+    }
+    /* ANCHOR weak point the dependency array needs one more item */
+    // after  it renders data every time(colorsJson.data.colors)
+  }, [colorsJson.data.maxCount, colorsJson.status, dispatch, maxCount]);
 
   useEffect(() => {
-    isGameOver(handleColors, setFinished, maxCount.current);
-  }, [handleColors]);
+    const isWinner = isGameOver(handleColors, maxCount.current);
+    if (isWinner) {
+      dispatch(setFinishStatus());
+    }
+  }, [dispatch, handleColors]);
 
   return (
     <>
@@ -82,7 +99,7 @@ function ButtonContainer() {
         className="btn-selected"
         onClick={handleSelectedColorClick}
       />
-      <GameContainer renderColors={renderColors} onClick={handleClick} />
+      <GameContainer onClick={handleClick} />
     </>
   );
 }

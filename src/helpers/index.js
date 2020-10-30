@@ -14,7 +14,8 @@ export const copyArray = (arr) => {
   return arr.map((value) => [...value]);
 };
 
-export const isGameOver = (handleColors, setFinished, maxCount) => {
+export const isGameOver = (handleColors, maxCount) => {
+  let status = true;
   let count = 0;
   handleColors.forEach((colors) => {
     if (colors.length === maxCount) {
@@ -29,8 +30,9 @@ export const isGameOver = (handleColors, setFinished, maxCount) => {
   });
 
   if (count === 4) {
-    setFinished();
-    return true;
+    status = true;
+    return status;
   }
-  return false;
+  status = false;
+  return status;
 };
