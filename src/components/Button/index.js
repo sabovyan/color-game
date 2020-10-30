@@ -8,7 +8,7 @@ function Button({ className, style, color, onClick }) {
       className={`btn ${className}`}
       style={{ ...style, backgroundColor: color }}
       onClick={onClick}
-    ></div>
+    />
   );
 }
 
