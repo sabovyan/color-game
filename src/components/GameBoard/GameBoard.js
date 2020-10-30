@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonContainer from '../BtnContainer/index';
+import ButtonContainer from '../BtnContainer/BtnContainer';
 
 import './GameBoard.css';
 
