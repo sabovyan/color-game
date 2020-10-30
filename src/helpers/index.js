@@ -15,21 +15,22 @@ export const copyArray = (arr) => {
 };
 
 export const isGameOver = (handleColors, setFinished, maxCount) => {
-  let status = false;
   let count = 0;
-
   handleColors.forEach((colors) => {
-    if (colors.length && colors.length === maxCount) {
-      count += 1;
+    if (colors.length === maxCount) {
+      const setOfColors = new Set();
+      colors.forEach((color) => {
+        setOfColors.add(color);
+      });
+      if (setOfColors.size === 1) {
+        count += 1;
+      }
     }
   });
 
   if (count === 4) {
-    status = true;
-  }
-
-  if (status) {
     setFinished();
+    return true;
   }
-  return status;
+  return false;
 };
